@@ -15,6 +15,7 @@ const Card = ({ handleClick, id, type, flipped, solved, height, width, disabled 
           style={{ height, width }}
           className={flipped ? "front" : "back"}
           src={flipped || solved ? `/img/${type}.jpeg` : `/img/backkitten.png`}
+          alt=''
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Board from "./components/board";
-
+import useSound from 'use-sound';
 import initializeDeck from "./deck";
 
 import "./App.css";
@@ -19,7 +19,12 @@ function App() {
     preloadImages();
   }, [cards]);
 
+  const [flipSound] = useSound('./sounds/card-flip.wav')
+  const [shuffleSound] = useSound('./sounds/card-shuffle.wav')
+  const [dingSound] = useSound('./sounds/ding.wav')
+
   const handleClick = (id) => {
+    flipSound()
     setDisabled(true);
     if (flipped.length === 0) {
       setFlipped([id]);
@@ -28,6 +33,7 @@ function App() {
       if (sameCardClicked(id)) return;
       setFlipped([flipped[0], id]);
       if (isMatch(id)) {
+        dingSound()
         setSolved([...solved, flipped[0], id]);
         resetCards();
       } else {
@@ -37,12 +43,13 @@ function App() {
   };
 
   const handleRestart = () => {
-    setDisabled(false);
-    setFlipped([])
-    setSolved([])
-    setCards(initializeDeck())
-    resetCards()
-  }
+    shuffleSound()
+    setTimeout(function() {
+      setSolved([]);
+      setCards(initializeDeck());
+      resetCards();
+    }, 1500)
+  };
 
   const preloadImages = () => {
     cards.map((card) => {
@@ -64,6 +71,10 @@ function App() {
     setDisabled(false);
   };
 
+  
+
+  console.log(cards.length)
+  console.log(solved.length)
 
   return (
     <div className="app">
