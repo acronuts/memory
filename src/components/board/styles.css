@@ -1,0 +1,12 @@
+body {
+    width: 100vw;
+    height: 80vh;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    margin: 0px;
+    padding: 20px;
+}
