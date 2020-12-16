@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Board from "./components/board";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 import initializeDeck from "./deck";
 
 import "./App.css";
@@ -10,6 +10,7 @@ function App() {
   const [cards, setCards] = useState([]);
   const [solved, setSolved] = useState([]);
   const [disabled, setDisabled] = useState(false);
+  const [winner, setWinner] = useState(false);
 
   useEffect(() => {
     setCards(initializeDeck());
@@ -19,10 +20,10 @@ function App() {
     preloadImages();
   }, [cards]);
 
-  const [flipSound] = useSound('./sounds/card-flip.wav')
-  const [shuffleSound] = useSound('./sounds/card-shuffle.wav')
-  const [dingSound] = useSound('./sounds/ding.wav')
-  const [cheerSound] = useSound('./sounds/cheer.mp3')
+  const [flipSound] = useSound("./sounds/card-flip.wav");
+  const [shuffleSound] = useSound("./sounds/card-shuffle.wav");
+  const [dingSound] = useSound("./sounds/ding.wav");
+  const [cheerSound] = useSound("./sounds/cheer.mp3");
 
   const handleClick = (id) => {
     flipSound();
@@ -32,30 +33,32 @@ function App() {
       setDisabled(false);
     } else {
       if (sameCardClicked(flipped, id)) {
-        setTimeout(resetCards, 250)
-        return
-      };
+        setTimeout(resetCards, 250);
+        return;
+      }
       setFlipped([flipped[0], id]);
       if (isMatch(id)) {
-        dingSound()
+        dingSound();
         setSolved([...solved, flipped[0], id]);
-        resetCards();
-        if (solved.length === cards.length) {
+        if (solved.length === cards.length - 2) {
           cheerSound()
+          setWinner(true)
         }
+        resetCards();
       } else {
         setTimeout(resetCards, 1000);
       }
-    } 
+    }
   };
 
   const handleRestart = () => {
-    shuffleSound()
-    setTimeout(function() {
+    shuffleSound();
+    setTimeout(function () {
       setSolved([]);
+      setWinner(false)
       setCards(initializeDeck());
       resetCards();
-    }, 1500)
+    }, 1500);
   };
 
   const preloadImages = () => {
@@ -67,9 +70,9 @@ function App() {
 
   const sameCardClicked = (flipped, id) => {
     if (flipped[0] === id) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   };
 
@@ -84,9 +87,8 @@ function App() {
     setDisabled(false);
   };
 
-
   return (
-    <div className="app">
+    <div className={`app ${winner ? "won" : ""}`}>
       <div className="header">
         <h1>Kitten Memory</h1>
       </div>
