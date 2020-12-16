@@ -22,24 +22,31 @@ function App() {
   const [flipSound] = useSound('./sounds/card-flip.wav')
   const [shuffleSound] = useSound('./sounds/card-shuffle.wav')
   const [dingSound] = useSound('./sounds/ding.wav')
+  const [cheerSound] = useSound('./sounds/cheer.mp3')
 
   const handleClick = (id) => {
-    flipSound()
+    flipSound();
     setDisabled(true);
     if (flipped.length === 0) {
       setFlipped([id]);
       setDisabled(false);
     } else {
-      if (sameCardClicked(id)) return;
+      if (sameCardClicked(flipped, id)) {
+        setTimeout(resetCards, 250)
+        return
+      };
       setFlipped([flipped[0], id]);
       if (isMatch(id)) {
         dingSound()
         setSolved([...solved, flipped[0], id]);
         resetCards();
+        if (solved.length === cards.length) {
+          cheerSound()
+        }
       } else {
         setTimeout(resetCards, 1000);
       }
-    }
+    } 
   };
 
   const handleRestart = () => {
@@ -58,7 +65,13 @@ function App() {
     });
   };
 
-  const sameCardClicked = (id) => flipped.includes(id);
+  const sameCardClicked = (flipped, id) => {
+    if (flipped[0] === id) {
+      return true
+    } else {
+      return false
+    }
+  };
 
   const isMatch = (id) => {
     const clickedCard = cards.find((card) => card.id === id);
@@ -71,10 +84,6 @@ function App() {
     setDisabled(false);
   };
 
-  
-
-  console.log(cards.length)
-  console.log(solved.length)
 
   return (
     <div className="app">

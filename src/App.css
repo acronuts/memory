@@ -1,9 +1,9 @@
 body {
-  padding: 0px;
   background-color: salmon;
 }
 
 .app {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,12 +14,11 @@ body {
   text-align: center;
   font-family: 'Pinyon Script', cursive;
   font-size: 32px;
-  font-weight: 300;
 }
 
 h1 {
   margin: 0;
-  padding-top: 30px;
+  padding-bottom: 20px;
 }
 
 button {
@@ -31,5 +30,5 @@ button {
   border: none;
   font-family: 'Dancing Script', cursive;
   font-size: 26px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
