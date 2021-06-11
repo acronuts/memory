@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Live [demo](https://kitten-memory.web.app/)
 
+<img src=https://github.com/acronuts/memory/blob/master/public/img/KittenMemory.PNG>
+
 ## Available Scripts
 
 In the project directory, you can run:
